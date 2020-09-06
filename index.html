@@ -1,0 +1,250 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>番茄工作法 Promodoro Technique Web</title>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+        <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js"></script>
+    </head>
+    <body class="col">
+        <div class="row">
+            <div id="remain-time">-分 -秒</div>
+            <div id="start-countdown-work-button" onclick="startCountdown(1500)">▶工作</div>
+            <div id="start-countdown-relax-button" onclick="startCountdown(3)">▶休息</div>
+        </div>
+        <div id="list" class="col">
+            <div class="list-entry list-entry-add row" @click="addEntry()">添加</div>
+            <div v-for="(item, i) in List" class="list-entry row">
+                <div class="list-entry-time">{{tickToTimeStr(item.time)}}</div>
+                <input type='text' v-model="item.content" class="list-entry-content" />
+                <div class="list-entry-delete row" @click="deleteEntry(i)">×</div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<style>
+    .row{
+        display: flex;
+        align-items: center;
+    }
+    .col{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #remain-time{
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 20px;
+    }
+
+    #start-countdown-work-button, #start-countdown-relax-button{
+        width: 50px;
+        padding: 5px 10px;
+        margin: 0 5px;
+        border-radius: 20px;
+        
+        color: white;
+        transition: background-color 0.2s ease-out;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        cursor: pointer;
+    }
+    #start-countdown-work-button{
+        background-color: rgb(66, 167, 88);
+    }
+    #start-countdown-work-button:hover{
+        background-color: rgb(102, 218, 127);
+    }
+
+    #start-countdown-relax-button{
+        background-color: rgb(66, 68, 167);
+    }
+    #start-countdown-relax-button:hover{
+        background-color: rgb(123, 102, 218);
+    }
+
+    #list{
+        width: 100%;
+        min-width: 200px;
+        max-width: 400px;
+    }
+    .list-entry{
+
+    }
+    .list-entry-add{
+        height: 20px;
+        width: 100%;
+        justify-content: center;
+        
+        border-radius: 16px;
+        background-color: rgb(24, 146, 44);
+        color: white;
+        cursor: pointer;
+
+        transition: background-color 0.2s ease-out;
+    }
+    .list-entry-add:hover{
+        background-color: rgb(98, 209, 117);
+    }
+    .list-entry-time{
+        margin: 0 5px;
+    }
+    .list-entry-content{
+        outline: 0;
+        border: 0;
+        border-bottom: 1px black solid;
+        margin: 0 5px;
+    }
+    .list-entry-content:focus{
+        outline: 0;
+    }
+    .list-entry-delete{
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        color: rgb(148, 34, 34);
+        background-color: rgba(255, 176, 176, 0);
+        transition: all 0.2s ease-out;
+        border-radius: 50%;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .list-entry-delete:hover{
+        color: rgb(148, 34, 34);
+        background-color: rgba(255, 176, 176, 0.3);
+    }
+</style>
+
+<script>
+    /* 计时相关 */
+    var countTime = 0
+    var startTick = null
+    function startCountdown(time){
+        countTime = time
+        startTick = new Date().getTime()
+        if (!isRendering) {
+            isRendering = true
+            render()
+        }
+    }
+
+    var isRendering = false
+    function render(){
+        if(!isRendering) return
+        if(!renderRemainTime()){
+            isRendering = false
+            setTimeout(countdownFinish, 0)
+            return
+        }
+        window.requestAnimationFrame(render)
+    }
+
+    function renderRemainTime(){
+        // 获取剩余时间
+        var curTick = new Date().getTime()
+        var remainTick = countTime*1000 - (curTick - startTick);
+        if(remainTick <= 0){
+            return false
+        }
+        
+        $("#remain-time").text(formatTime(remainTick))
+        return true
+    }
+
+    var notificationPermitted = (Notification && Notification.permission === 'granted' ? true : false)
+    if (Notification.permission === 'default'){
+        Notification.requestPermission().then(function(result){
+            if (result === 'denied') {
+                notificationPermitted = false;
+                return;
+            }
+            if (result === 'granted') {
+                notificationPermitted = true;
+                return;
+            }
+        })
+    }
+    function countdownFinish(){
+        var countTimeStr = formatTime(countTime*1000)
+        if (notificationPermitted){
+            var notification = new Notification('番茄工作法 计时结束', {
+                icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+                body: `已经过去了 ${countTimeStr}`,
+            });
+        }
+        else{
+            alert(`计时结束\n已经过去了 ${countTimeStr}`)
+        }
+    }
+
+    function formatTime(time){
+        // 格式化
+        var hours = Math.floor(time / 1000 / 60 / 60)
+        time -= hours * 60 * 60 * 1000
+        hours %= 24
+        var mins = Math.floor(time / 1000 / 60)
+        time -= mins * 60 * 1000
+        var secs = Math.floor(time / 1000)
+        time -= mins * 1000
+        //var mss = remainTick
+        var result = (hours ? `${hours}时` : '') + (mins ? `${mins}分` : '') + (secs ? `${secs}秒` : '')
+        return result
+    }
+
+    /* 日程相关 */
+    var vmList = new Vue({
+        el: '#list',
+        mounted: function(){
+            this.loadData()
+        },
+        data: {
+            List: [
+                {
+                    time: new Date().getTime(),
+                    content: '111'
+                },
+                {
+                    time: new Date().getTime(),
+                    content: '123'
+                },
+            ]
+        },
+        methods: {
+            saveData(){
+                localStorage.List = this.List ? JSON.stringify(this.List) : []
+            },
+            loadData(){
+                this.List = localStorage.List ? JSON.parse(localStorage.List) : []
+            },
+
+            addEntry(){
+                console.log("add")
+                this.List.splice(0, 0, {
+                    time: new Date().getTime(),
+                    content: ''
+                })
+            },
+            deleteEntry(index){
+                this.List.splice(index, 1)
+            },
+        },
+        watch: {
+            List(){
+                this.saveData()
+            }
+        }
+    })
+
+    function tickToTimeStr(tick){
+        var time = new Date(tick)
+        return time.toLocaleDateString() + " " + time.toTimeString().slice(0, 8)
+    }
+</script>
