@@ -1,0 +1,156 @@
+.row{
+    display: flex;
+    align-items: center;
+}
+.col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#remain-time{
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+}
+
+#start-countdown-work-button, #start-countdown-relax-button{
+    width: 50px;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 20px;
+    
+    color: white;
+    transition: background-color 0.2s ease-out;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+#start-countdown-work-button{
+    background-color: rgb(66, 167, 88);
+}
+#start-countdown-work-button:hover{
+    background-color: rgb(102, 218, 127);
+}
+
+#start-countdown-relax-button{
+    background-color: rgb(66, 68, 167);
+}
+#start-countdown-relax-button:hover{
+    background-color: rgb(123, 102, 218);
+}
+
+#list-area{
+    width: 100%;
+    min-width: 200px;
+    max-width: 400px;
+}
+.list-item{
+    width: 100%;
+}
+.list-item-add{
+    height: 20px;
+    width: 100%;
+    margin: 5px;
+    padding: 5px;
+    justify-content: center;
+    
+    border-radius: 16px;
+    background-color: rgb(24, 146, 44);
+    color: white;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease-out;
+}
+.list-item-add:hover{
+    background-color: rgb(98, 209, 117);
+}
+
+.list-item-export-csv {
+    height: 20px;
+    width: 50%;
+    margin: 5px;
+    padding: 5px;
+    justify-content: center;
+    
+    border-radius: 16px;
+    background-color: rgb(146, 89, 24);
+    color: white;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease-out;
+}
+.list-item-export-csv :hover{
+    background-color: rgb(209, 148, 98);
+}
+
+.list-item-clear {
+    height: 20px;
+    width: 50%;
+    margin: 5px;
+    padding: 5px;
+    justify-content: center;
+    
+    border-radius: 16px;
+    background-color: rgb(146, 24, 24);
+    color: white;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease-out;
+}
+.list-item-clear :hover{
+    background-color: rgb(209, 98, 98);
+}
+.list-item-time{
+    margin: 0 5px;
+}
+.list-item-content{
+    outline: 0;
+    border: 0;
+    border-bottom: 1px black solid;
+    margin: 0 5px;
+}
+.list-item-content:focus{
+    outline: 0;
+}
+.list-item-delete{
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    color: rgb(148, 34, 34);
+    background-color: rgba(255, 176, 176, 0);
+    transition: all 0.2s ease-out;
+    border-radius: 50%;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+.list-item-delete:hover{
+    color: rgb(148, 34, 34);
+    background-color: rgba(255, 176, 176, 0.3);
+}
+
+.list-enter-active, .list-leave-active {
+    transition: opacity 0.2s, transform ease-out 0.2s;
+    opacity: 0;
+}
+.list-enter-to {
+    opacity: 1;
+}
+.list-leave-active{
+    position: absolute;
+    transition: opacity 0.1s, transform ease-out 0.2s;
+    opacity: 1;
+}
+.list-leave-to{
+    opacity: 0;
+}
+.list-move {
+    transition: transform 0.2s;
+}
