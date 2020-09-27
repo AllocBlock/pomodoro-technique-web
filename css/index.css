@@ -135,9 +135,27 @@
     color: rgb(148, 34, 34);
     background-color: rgba(255, 176, 176, 0.3);
 }
+.list-item-type{
+    width: 60px;
+    height: 22px;
+    font-size: 14px;
+    transition: all 0.2s ease-out;
+    border-radius: 20px;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+.list-item-type-record{
+    color: rgb(73, 40, 134);
+    border:  rgb(73, 40, 134) 2px solid;
+}
+.list-item-type-plan{
+    color: rgb(143, 32, 101);
+    border: rgb(143, 32, 101) 2px solid;
+}
 
 .list-enter-active, .list-leave-active {
-    transition: opacity 0.2s, transform ease-out 0.2s;
+    transition: opacity 0.2s;
     opacity: 0;
 }
 .list-enter-to {
@@ -145,12 +163,12 @@
 }
 .list-leave-active{
     position: absolute;
-    transition: opacity 0.1s, transform ease-out 0.2s;
+    transition: opacity 0.1s;
     opacity: 1;
 }
 .list-leave-to{
     opacity: 0;
 }
 .list-move {
-    transition: transform 0.2s;
+    transition: transform 0.3s;
 }
