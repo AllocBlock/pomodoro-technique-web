@@ -23,9 +23,10 @@
             </div>
             <div class="list-item list-item-add row" @click="addEntry()">添加</div>
             <transition-group name="list">
-                <div v-for="(item, i) in List" v-bind:key="item" class="list-item row">
+                <div v-for="(item, i) in List" v-bind:key="item" :class="'list-item row ' + (item.finished ? 'list-item-deleted' : '')">
                     <div class="list-item-time">{{tickToTimeStr(item.time)}}</div>
                     <input type='text' v-model="item.content" class="list-item-content" @input="saveData()"/>
+                    <div v-if="Type == 1" :class="'row list-item-' + (item.finished ? 'unfinish' : 'finish')" @click="toggleFinishEntry(i)">{{item.finished ? '-' : '○'}}</div>
                     <div class="list-item-delete row" @click="deleteEntry(i)">×</div>
                 </div>
             </transition-group>
