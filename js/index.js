@@ -149,6 +149,13 @@ var vmList = new Vue({
         },
         toggleFinishEntry(index){
             this.List[index].finished = !this.List[index].finished
+            if (this.Type == 1){
+                this.List.sort((a, b) => b.time - a.time)
+                this.List.sort((a, b) => {
+                    if (a.finished != b.finished) return a.finished ? 1 : -1
+                    else return 0
+                })
+            }
         },
         exportCsv(){
             // 生成csv
