@@ -15,11 +15,15 @@
             <div id="start-countdown-work-button" onclick="startCountdown(1500)">▶工作</div>
             <div id="start-countdown-relax-button" onclick="startCountdown(300)">▶休息</div>
         </div>
-        <div id="list-area" class="col">
-            <div class="list-item row">
+        <div id="list-area" :class="'col list-background-' + typeName[Type]">
+            <div :class="'list-item-type row list-item-type-' + typeName[Type]" @click="nextType()">
+                <div :class="'list-item-text-background list-item-text-background-' + typeName[Type]"></div>
+                <div class="list-item-type-text" :style="'opacity: ' + (Type == 0 ? 1 : 0.4)">记录</div>
+                <div class="list-item-type-text" :style="'opacity: ' + (Type == 1 ? 1 : 0.4)">计划</div>
+            </div>
+            <div class="list-item row" style="justify-content: flex-end;">
                 <div class="list-item-export-csv row" @click="exportCsv()">导出csv</div>
                 <div class="list-item-clear row" @click="clear()">清空</div>
-                <div :class="'list-item-type row list-item-type-' + typeName[Type]" @click="nextType()">{{typeList[Type]}}</div>
             </div>
             <div class="list-item list-item-add row" @click="addEntry()">添加</div>
             <transition-group name="list">

@@ -99,7 +99,6 @@ var vmList = new Vue({
             this.loadData()
         },
         saveData(){
-            console.log("saved")
             switch(this.Type){
                 case 0: {
                     localStorage.recordList = this.List ? JSON.stringify(this.List) : []
@@ -124,7 +123,6 @@ var vmList = new Vue({
             }
         },
         addEntry(){
-            console.log("add")
             switch(this.Type){
                 case 0: {
                     this.List.splice(0, 0, {

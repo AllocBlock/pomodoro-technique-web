@@ -51,11 +51,23 @@
     width: 100%;
     min-width: 200px;
     max-width: 400px;
+    border-radius: 10px;
+    padding: 10px;
+}
+.list-background-record{
+    background: linear-gradient(to bottom, rgb(231, 218, 255), rgb(249, 255, 251)) ;
+}
+.list-background-plan{
+    background: rgb(255, 221, 242);
 }
 .list-item{
     position: relative;
     width: 100%;
     transition: all 0.3s;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 .list-item-deleted{
     opacity: 0.3;
@@ -71,7 +83,7 @@
 }
 .list-item-add{
     height: 20px;
-    width: 100%;
+    width: calc(100% - 20px);
     margin: 5px;
     padding: 5px;
     justify-content: center;
@@ -88,14 +100,14 @@
 }
 
 .list-item-export-csv {
-    height: 20px;
-    width: 50%;
+    height: 14px;
+    width: 80px;
     margin: 5px;
     padding: 5px;
     justify-content: center;
     
     border-radius: 16px;
-    background-color: rgb(146, 89, 24);
+    background-color: rgb(207, 176, 140);
     color: white;
     cursor: pointer;
 
@@ -106,14 +118,14 @@
 }
 
 .list-item-clear {
-    height: 20px;
-    width: 50%;
+    height: 14px;
+    width: 80px;
     margin: 5px;
     padding: 5px;
     justify-content: center;
     
     border-radius: 16px;
-    background-color: rgb(146, 24, 24);
+    background-color: rgb(185, 102, 102);
     color: white;
     cursor: pointer;
 
@@ -184,22 +196,44 @@
 }
 
 .list-item-type{
-    width: 60px;
+    width: calc(100% - 20px);
     height: 22px;
     font-size: 14px;
     transition: all 0.2s ease-out;
     border-radius: 20px;
-    justify-content: center;
+    justify-content: space-around;
     cursor: pointer;
     user-select: none;
+    position: relative;
+    overflow: hidden;
 }
 .list-item-type-record{
-    color: rgb(73, 40, 134);
     border:  rgb(73, 40, 134) 2px solid;
 }
 .list-item-type-plan{
-    color: rgb(143, 32, 101);
     border: rgb(143, 32, 101) 2px solid;
+}
+.list-item-type-text{
+    color: white;
+    transition: opacity 0.2s ease-out;
+    z-index: 1;
+    font-weight: bold;
+}
+.list-item-text-background{
+    position: absolute;
+    background-color: black;
+    left: 0;
+    height: 100%;
+    width: 50%;
+    transition: 0.1s ease-out;
+}
+.list-item-text-background-record{
+    left: 0;
+    background-color: rgb(73, 40, 134);
+}
+.list-item-text-background-plan{
+    left: 50%;
+    background-color: rgb(143, 32, 101);
 }
 
 .list-enter-active, .list-leave-active {
@@ -211,6 +245,7 @@
 }
 .list-leave-active{
     position: absolute;
+    left: 0;
     transition: opacity 0.1s;
     opacity: 1;
 }
