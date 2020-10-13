@@ -182,7 +182,7 @@ var vmList = new Vue({
                 }
                 case 1: {
                     for(entry of vmList.$data.List){
-                        csv += tickToTimeStr(entry.time) + "," + entry.content + "," +(entry.finished ? "已完成" : "未完成") + "\n"
+                        csv += tickToTimeStr(entry.time) + "," + entry.content + "," + (entry.finished ? "finished" : "unfinished") + "\n"
                     }
                     var filename = new Date().toLocaleDateString() + "_plan.csv"
                     break
