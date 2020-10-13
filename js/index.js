@@ -172,17 +172,23 @@ var vmList = new Vue({
         exportCsv(){
             // 生成csv
             var csv = ""
-            for(entry of vmList.$data.List){
-                csv += tickToTimeStr(entry.time) + "," + entry.content + "\n"
-            }
             switch(this.Type){
                 case 0: {
+                    for(entry of vmList.$data.List){
+                        csv += tickToTimeStr(entry.time) + "," + entry.content + "\n"
+                    }
                     var filename = new Date().toLocaleDateString() + "_work.csv"
-                    break;
+                    break
                 }
                 case 1: {
+                    for(entry of vmList.$data.List){
+                        csv += tickToTimeStr(entry.time) + "," + entry.content + "," +(entry.finished ? "已完成" : "未完成") + "\n"
+                    }
                     var filename = new Date().toLocaleDateString() + "_plan.csv"
-                    break;
+                    break
+                }
+                default: {
+                    return
                 }
             }
             // 下载
@@ -193,7 +199,6 @@ var vmList = new Vue({
         },
         clear(){
             if (confirm("确认清空所有数据？"))
-        
             vmList.$data.List = []
         }
     },
