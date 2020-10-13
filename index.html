@@ -10,10 +10,15 @@
         
     </head>
     <body class="col">
-        <div class="row">
-            <div id="remain-time">-分 -秒</div>
-            <div id="start-countdown-work-button" onclick="startCountdown(1500)">▶工作</div>
-            <div id="start-countdown-relax-button" onclick="startCountdown(300)">▶休息</div>
+        <div id="counter-area" class="col">
+            <div id="counter-control" class="row">
+                <div v-if="!IsCounting" id="start-countdown-work-button" @click="startCountdown(1500)" class="counter-button">▶工作</div>
+                <div v-if="!IsCounting" id="start-countdown-relax-button" @click="startCountdown(300)" class="counter-button">▶休息</div>
+                <div v-if="IsCounting && IsPaused" id="counter-resume-button" @click="resumeCountdown()" class="counter-button">▶继续</div>
+                <div v-if="IsCounting && !IsPaused" id="counter-pause-button" @click="pauseCountdown()" class="counter-button">❚❚暂停</div>
+                <div v-if="IsCounting" id="counter-stop-button" @click="stopCountdown()" class="counter-button">■停止</div>
+            </div>
+            <div id="remain-time" :class="'remain-time-' + (IsPaused ? 'paused' : (IsCounting ? 'counting' : 'stopped'))">{{CountText}}</div>
         </div>
         <div id="list-area" :class="'col list-background-' + typeName[Type]">
             <div :class="'list-item-type row list-item-type-' + typeName[Type]" @click="nextType()">

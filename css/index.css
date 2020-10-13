@@ -8,18 +8,40 @@
     align-items: center;
 }
 
+#counter-area{
+    width: 100%;
+    min-width: 200px;
+    max-width: 400px;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 8px;
+    margin-bottom: 20px;
+}
+
 #remain-time{
-    height: 40px;
+    width: 100%;
+    min-width: 100px;
+    margin: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
 
+    transition: 0.2s ease-out;
+}
+.remain-time-counting{
+    font-size: 40px;
+}
+.remain-time-paused{
+    font-size: 30px;
+    opacity: 0.7;
+}
+.remain-time-stopped{
     font-size: 20px;
 }
 
-#start-countdown-work-button, #start-countdown-relax-button{
+.counter-button{
     width: 50px;
-    padding: 5px 10px;
+    padding: 4px 8px;
     margin: 0 5px;
     border-radius: 20px;
     
@@ -32,19 +54,16 @@
 
     cursor: pointer;
 }
-#start-countdown-work-button{
-    background-color: rgb(66, 167, 88);
-}
-#start-countdown-work-button:hover{
-    background-color: rgb(102, 218, 127);
-}
-
-#start-countdown-relax-button{
-    background-color: rgb(66, 68, 167);
-}
-#start-countdown-relax-button:hover{
-    background-color: rgb(123, 102, 218);
-}
+#start-countdown-work-button            {background-color: rgb(66, 167, 88);}
+#start-countdown-work-button:hover      {background-color: rgb(102, 218, 127);}
+#start-countdown-relax-button           {background-color: rgb(66, 68, 167);}
+#start-countdown-relax-button:hover     {background-color: rgb(123, 102, 218);}
+#counter-resume-button                  {background-color: rgb(197, 175, 52);}
+#counter-resume-button:hover            {background-color: rgb(218, 206, 102);}
+#counter-pause-button                   {background-color: rgb(197, 86, 52);}
+#counter-pause-button:hover             {background-color: rgb(218, 154, 102);}
+#counter-stop-button                    {background-color: rgb(197, 52, 52);}
+#counter-stop-button:hover              {background-color: rgb(218, 102, 102);}
 
 #list-area{
     position: relative;
@@ -142,6 +161,7 @@
     border: 0;
     border-bottom: 1px black solid;
     margin: 0 5px;
+    background: transparent;
 }
 .list-item-content:focus{
     outline: 0;
