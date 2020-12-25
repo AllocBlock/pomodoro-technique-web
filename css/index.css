@@ -18,6 +18,25 @@
     margin-bottom: 20px;
 }
 
+#area-display-button{
+    margin-bottom: 5px;
+    padding: 0 5px;
+    align-self: flex-start;
+    border-radius: 5px;
+    font-size: 20px;
+    color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s all;
+    cursor: pointer;
+    user-select: none;
+}
+
+.area-hide:hover, .area-show:hover{
+    color: indigo;
+}
+
 #remain-time{
     width: 100%;
     min-width: 100px;
@@ -79,7 +98,7 @@
 .list-background-plan{
     background: rgb(255, 221, 242);
 }
-.list-item{
+.item{
     position: relative;
     width: 100%;
     transition: all 0.3s;
@@ -88,10 +107,10 @@
     justify-content: space-around;
     align-items: center;
 }
-.list-item-deleted{
+.item-deleted{
     opacity: 0.3;
 }
-.list-item-deleted::after{
+.item-deleted::after{
     content: '';
     position: absolute;
     width: 100%;
@@ -100,7 +119,7 @@
     left: 0;
     background-color: black;
 }
-.list-item-add{
+.item-add{
     height: 20px;
     width: calc(100% - 20px);
     margin: 5px;
@@ -114,11 +133,11 @@
 
     transition: background-color 0.2s ease-out;
 }
-.list-item-add:hover{
+.item-add:hover{
     background-color: rgb(98, 209, 117);
 }
 
-.list-item-export-csv {
+.item-export-csv {
     height: 14px;
     width: 80px;
     margin: 5px;
@@ -132,11 +151,11 @@
 
     transition: background-color 0.2s ease-out;
 }
-.list-item-export-csv :hover{
+.item-export-csv :hover{
     background-color: rgb(209, 148, 98);
 }
 
-.list-item-clear {
+.item-clear {
     height: 14px;
     width: 80px;
     margin: 5px;
@@ -150,23 +169,27 @@
 
     transition: background-color 0.2s ease-out;
 }
-.list-item-clear :hover{
+.item-clear :hover{
     background-color: rgb(209, 98, 98);
 }
-.list-item-time{
+.item-time{
     margin: 0 5px;
 }
-.list-item-content{
+.item-content{
+    margin: 0 5px;
+    width: 100%;
+}
+.item-content-input{
     outline: 0;
     border: 0;
     border-bottom: 1px black solid;
     margin: 0 5px;
     background: transparent;
 }
-.list-item-content:focus{
+.item-content-input:focus{
     outline: 0;
 }
-.list-item-delete{
+.item-delete{
     width: 30px;
     height: 30px;
     font-size: 20px;
@@ -178,11 +201,11 @@
     cursor: pointer;
     user-select: none;
 }
-.list-item-delete:hover{
+.item-delete:hover{
     color: rgb(148, 34, 34);
     background-color: rgba(255, 176, 176, 0.3);
 }
-.list-item-finish{
+.item-finish{
     width: 30px;
     height: 30px;
     font-size: 20px;
@@ -194,11 +217,11 @@
     cursor: pointer;
     user-select: none;
 }
-.list-item-finish:hover{
+.item-finish:hover{
     color: rgb(34, 148, 95);
     background-color: rgba(176, 255, 212, 0.3);
 }
-.list-item-unfinish{
+.item-unfinish{
     width: 30px;
     height: 30px;
     font-size: 20px;
@@ -210,12 +233,12 @@
     cursor: pointer;
     user-select: none;
 }
-.list-item-unfinish:hover{
+.item-unfinish:hover{
     color: rgb(150, 150, 150);
     background-color: rgba(192, 192, 192, 0.3);
 }
 
-.list-item-type{
+.item-type{
     width: calc(100% - 20px);
     height: 22px;
     font-size: 14px;
@@ -227,19 +250,19 @@
     position: relative;
     overflow: hidden;
 }
-.list-item-type-record{
+.item-type-record{
     border:  rgb(73, 40, 134) 2px solid;
 }
-.list-item-type-plan{
+.item-type-plan{
     border: rgb(143, 32, 101) 2px solid;
 }
-.list-item-type-text{
+.item-type-text{
     color: white;
     transition: opacity 0.2s ease-out;
     z-index: 1;
     font-weight: bold;
 }
-.list-item-text-background{
+.item-text-background{
     position: absolute;
     background-color: black;
     left: 0;
@@ -247,11 +270,11 @@
     width: 50%;
     transition: 0.1s ease-out;
 }
-.list-item-text-background-record{
+.item-text-background-record{
     left: 0;
     background-color: rgb(73, 40, 134);
 }
-.list-item-text-background-plan{
+.item-text-background-plan{
     left: 50%;
     background-color: rgb(143, 32, 101);
 }
@@ -274,4 +297,15 @@
 }
 .list-move {
     transition: transform 0.3s;
+}
+
+/* 每日任务 */
+#daily-area{
+    width: 100%;
+    min-width: 200px;
+    max-width: 400px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    padding: 8px;
+    margin-bottom: 20px;
 }

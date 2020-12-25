@@ -11,32 +11,50 @@
     </head>
     <body class="col">
         <div id="counter-area" class="col">
-            <div id="counter-control" class="row">
-                <div v-if="!IsCounting" id="start-countdown-work-button" @click="startCountdown(1500)" class="counter-button">▶工作</div>
-                <div v-if="!IsCounting" id="start-countdown-relax-button" @click="startCountdown(300)" class="counter-button">▶休息</div>
-                <div v-if="IsCounting && IsPaused" id="counter-resume-button" @click="resumeCountdown()" class="counter-button">▶继续</div>
-                <div v-if="IsCounting && !IsPaused" id="counter-pause-button" @click="pauseCountdown()" class="counter-button">❚❚暂停</div>
-                <div v-if="IsCounting" id="counter-stop-button" @click="stopCountdown()" class="counter-button">■停止</div>
+            <div id="area-display-button" :class="'area-' + (Show ? 'hide' : 'show')" @click="switchDisplay">
+                {{Show ? '◿' : '○'}}
             </div>
-            <div id="remain-time" :class="'remain-time-' + (IsPaused ? 'paused' : (IsCounting ? 'counting' : 'stopped'))">{{CountText}}</div>
+            <div v-if="Show">
+                <div id="counter-control" class="row">
+                    <div v-if="!IsCounting" id="start-countdown-work-button" @click="startCountdown(1500)" class="counter-button">▶工作</div>
+                    <div v-if="!IsCounting" id="start-countdown-relax-button" @click="startCountdown(300)" class="counter-button">▶休息</div>
+                    <div v-if="IsCounting && IsPaused" id="counter-resume-button" @click="resumeCountdown()" class="counter-button">▶继续</div>
+                    <div v-if="IsCounting && !IsPaused" id="counter-pause-button" @click="pauseCountdown()" class="counter-button">❚❚暂停</div>
+                    <div v-if="IsCounting" id="counter-stop-button" @click="stopCountdown()" class="counter-button">■停止</div>
+                </div>
+                <div id="remain-time" :class="'remain-time-' + (IsPaused ? 'paused' : (IsCounting ? 'counting' : 'stopped'))">{{CountText}}</div>
+            </div>
+        </div>
+        <div id="daily-area" class="col">
+            <div id="area-display-button" :class="'area-' + (Show ? 'hide' : 'show')" @click="switchDisplay">
+                {{Show ? '◿' : '○'}}
+            </div>
+            <div v-if="Show" style="width: 100%;">
+                <div class="item item-add row" @click="addEntry()">添加</div>
+                <div v-for="(item, i) in TodayDaily" v-bind:key="item" :class="'item row ' + (item.done ? 'item-deleted' : '')">
+                    <div class="item-content">{{item.name}}</div>
+                    <div :class="'row item-' + (item.done ? 'unfinish' : 'finish')" @click="toggleFinishEntry(i)">{{item.done ? '-' : '○'}}</div>
+                    <div class="item-delete row" @click="deleteEntry(i)">×</div>
+                </div>
+            </div>
         </div>
         <div id="list-area" :class="'col list-background-' + typeName[Type]">
-            <div :class="'list-item-type row list-item-type-' + typeName[Type]" @click="nextType()">
-                <div :class="'list-item-text-background list-item-text-background-' + typeName[Type]"></div>
-                <div class="list-item-type-text" :style="'opacity: ' + (Type == 0 ? 1 : 0.4)">记录</div>
-                <div class="list-item-type-text" :style="'opacity: ' + (Type == 1 ? 1 : 0.4)">计划</div>
+            <div :class="'item-type row item-type-' + typeName[Type]" @click="nextType()">
+                <div :class="'item-text-background item-text-background-' + typeName[Type]"></div>
+                <div class="item-type-text" :style="'opacity: ' + (Type == 0 ? 1 : 0.4)">记录</div>
+                <div class="item-type-text" :style="'opacity: ' + (Type == 1 ? 1 : 0.4)">计划</div>
             </div>
-            <div class="list-item row" style="justify-content: flex-end;">
-                <div class="list-item-export-csv row" @click="exportCsv()">导出csv</div>
-                <div class="list-item-clear row" @click="clear()">清空</div>
+            <div class="item row" style="justify-content: flex-end;">
+                <div class="item-export-csv row" @click="exportCsv()">导出csv</div>
+                <div class="item-clear row" @click="clear()">清空</div>
             </div>
-            <div class="list-item list-item-add row" @click="addEntry()">添加</div>
+            <div class="item item-add row" @click="addEntry()">添加</div>
             <transition-group name="list">
-                <div v-for="(item, i) in List" v-bind:key="item" :class="'list-item row ' + (item.finished ? 'list-item-deleted' : '')">
-                    <div class="list-item-time">{{tickToTimeStr(item.time)}}</div>
-                    <input type='text' v-model="item.content" class="list-item-content" @input="saveData()"/>
-                    <div v-if="Type == 1" :class="'row list-item-' + (item.finished ? 'unfinish' : 'finish')" @click="toggleFinishEntry(i)">{{item.finished ? '-' : '○'}}</div>
-                    <div class="list-item-delete row" @click="deleteEntry(i)">×</div>
+                <div v-for="(item, i) in List" v-bind:key="item" :class="'item row ' + (item.finished ? 'item-deleted' : '')">
+                    <div class="item-time">{{tickToTimeStr(item.time)}}</div>
+                    <input type='text' v-model="item.content" class="item-content-input" @input="saveData()"/>
+                    <div v-if="Type == 1" :class="'row item-' + (item.finished ? 'unfinish' : 'finish')" @click="toggleFinishEntry(i)">{{item.finished ? '-' : '○'}}</div>
+                    <div class="item-delete row" @click="deleteEntry(i)">×</div>
                 </div>
             </transition-group>
         </div>

@@ -17,6 +17,7 @@ if (Notification.permission === 'default'){
 var vmCounter = new Vue({
     el: '#counter-area',
     data: {
+        Show: true,
         CountText: '计时停止',
         CountTime: 0,
         IsCounting: false,
@@ -26,6 +27,10 @@ var vmCounter = new Vue({
         PausedTick: 0,
     },
     methods: {
+        // 切换显示
+        switchDisplay(){
+            this.Show = !this.Show
+        },
         // 开始计时
         startCountdown(time){
             this.CountTime = time
@@ -91,7 +96,7 @@ var vmCounter = new Vue({
             this.CountTime = this.PausedTick = 0
             this.StartTick = this.PauseStartTick = null
             this.CountText = '计时停止'
-        }
+        },
     }
 })
 
@@ -191,20 +196,89 @@ var vmList = new Vue({
                     return
                 }
             }
-            // 下载
-            var pom = document.createElement('a')
-            pom.setAttribute('href', 'data:text/plain;charset=gbk,' + encodeURIComponent(csv))
-            pom.setAttribute('download', filename)
-            pom.click()
+            createDownload(csv, filename)
         },
         clear(){
             if (confirm("确认清空所有数据？"))
-            vmList.$data.List = []
+            this.List = []
         }
     },
     watch: {
         List(){
             this.saveData()
+        }
+    }
+})
+
+/* 每日任务相关 */
+var vmDaily = new Vue({
+    el: '#daily-area',
+    mounted: function(){
+        this.loadData()
+    },
+    data: {
+        Show: true,
+        TodayDaily: [],
+        OriginDaily: [],
+    },
+    methods: {
+        __getTodayDate(){
+            return new Date().toLocaleDateString();
+        },
+        switchDisplay(){
+            this.Show = !this.Show
+        },
+        saveData(){
+            localStorage.dailyList = this.OriginDaily ? JSON.stringify(this.OriginDaily) : []
+        },
+        loadData(){
+            this.OriginDaily = localStorage.dailyList ? JSON.parse(localStorage.dailyList) : []
+        },
+        calDisplayData(){
+            this.TodayDaily = []
+            var today = this.__getTodayDate()
+            for(var Daily of this.OriginDaily){
+                var done = (Daily.days.indexOf(today) != -1)
+                this.TodayDaily.push({
+                    name: Daily.name,
+                    done: done
+                })
+            }
+        },
+        addEntry(){
+            var name = prompt("输入每日任务名称：")
+            if (!name) return
+            this.OriginDaily.splice(0, 0, {
+                name: name,
+                days: []
+            })     
+        },
+        deleteEntry(index){
+            this.OriginDaily.splice(index, 1)
+        },
+        toggleFinishEntry(index){
+            var Daily = this.OriginDaily[index]
+            var today = this.__getTodayDate()
+
+            var index = Daily.days.indexOf(today)
+            if (index == -1){
+                Daily.days.push(today)
+            }
+            else{
+                Daily.days.splice(index, 1)
+            }
+            this.saveData()
+            this.calDisplayData()
+        },
+        clear(){
+            if (confirm("确认清空所有数据？"))
+            this.OriginDaily = []
+        }
+    },
+    watch: {
+        OriginDaily(){
+            this.saveData()
+            this.calDisplayData()
         }
     }
 })
@@ -228,4 +302,21 @@ function formatTime(time){
     //var mss = remainTick
     var result = (hours ? `${hours}时` : '') + (hours || mins ? `${mins}分` : '') + `${secs}秒`
     return result
+}
+
+// 下载
+function createDownload(data, filename){
+    // 构造blob
+    var blob = new Blob(
+        [
+            new Uint8Array([0xEF, 0xBB, 0xBF]), // UTF-8 BOM
+            data
+        ],
+        { type: "text/plain;charset=utf-8"}
+    );
+    // 下载
+    var pom = document.createElement('a')
+    pom.href = window.URL.createObjectURL(blob)
+    pom.setAttribute('download', filename)
+    pom.click()
 }
